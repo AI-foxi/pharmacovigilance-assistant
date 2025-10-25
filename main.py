@@ -1,13 +1,15 @@
 # main.py
 import os
 from modules.seriousness_checker import SeriousnessChecker
+from modules.ime_checker import IMEChecker
 
 def main():
-    print("🚀 ФАРМАКОНАДЗОРНЫЙ АССИСТЕНТ")
-    print("=" * 50)
+    print("🚀 ФАРМАКОНАДЗОРНЫЙ АССИСТЕНТ v2.0")
+    print("=" * 60)
     
-    # Создаем проверяльщик серьезности
-    checker = SeriousnessChecker()
+    # Создаем проверяльщики
+    seriousness_checker = SeriousnessChecker()
+    ime_checker = IMEChecker()
     
     # Проверяем все 6 кейсов
     for i in range(1, 7):
@@ -19,22 +21,32 @@ def main():
                 case_text = f.read().strip()
             
             # Анализируем серьезность
-            result = checker.check_seriousness(case_text)
+            seriousness_result = seriousness_checker.check_seriousness(case_text)
+            
+            # Анализируем IME значимость
+            ime_result = ime_checker.check_ime_significance(case_text)
             
             # Выводим результат
-            status = "🔴 СЕРЬЕЗНЫЙ" if result['is_serious'] else "🟢 НЕ серьезный"
-            print(f"\nКейс {i}: {status}")
+            print(f"\n📋 КЕЙС {i}:")
             print(f"📄 Текст: {case_text}")
             
-            if result['flags']:
-                print(f"⚠️  Причины: {', '.join(result['flags'])}")
-            else:
-                print("✅ Серьезных критериев не найдено")
-                
+            # Серьезность
+            seriousness_status = "🔴 СЕРЬЕЗНЫЙ" if seriousness_result['is_serious'] else "🟢 НЕ серьезный"
+            print(f"⚠️  Серьезность: {seriousness_status}")
+            if seriousness_result['flags']:
+                print(f"   Причины: {', '.join(seriousness_result['flags'])}")
+            
+            # IME значимость
+            ime_status = "🔴 ЗНАЧИМЫЙ" if ime_result['is_significant'] else "🟢 НЕ значимый"
+            print(f"🏥 IME значимость: {ime_status}")
+            if ime_result['found_terms']:
+                for term in ime_result['found_terms']:
+                    print(f"   Найден IME: '{term['russian']}' → {term['english']}")
+                    
         else:
             print(f"\n❌ Файл {filename} не найден!")
     
-    print("\n" + "=" * 50)
+    print("\n" + "=" * 60)
     print("📊 АНАЛИЗ ЗАВЕРШЕН!")
 
 if __name__ == "__main__":
