@@ -3,17 +3,15 @@ import os
 from modules.seriousness_checker import SeriousnessChecker
 from modules.ime_checker import IMEChecker
 from modules.expectedness_checker import ExpectednessChecker
+from modules.causality_checker import CausalityChecker
 
 def extract_adverse_events(text):
-    """
-    Простой извлекатель нежелательных явлений из текста
-    В реальном проекте здесь была бы сложная NLP модель
-    """
-    # Простой словарь для демонстрации
+    """Извлекает нежелательные явления из текста"""
     common_events = [
         'головная боль', 'тошнота', 'сыпь', 'зуд', 'крапивница', 
         'отек', 'диарея', 'головокружение', 'судороги', 'боль в животе',
-        'анафилактический шок', 'лихорадка', 'рвота'
+        'анафилактический шок', 'лихорадка', 'рвота', 'смерть', 'летальный',
+        'погиб', 'умер', 'скончался', 'госпитализ', 'реанимация'
     ]
     
     found_events = []
@@ -26,13 +24,14 @@ def extract_adverse_events(text):
     return found_events if found_events else ['неизвестное событие']
 
 def main():
-    print("🚀 ФАРМАКОНАДЗОРНЫЙ АССИСТЕНТ v3.0")
+    print("🚀 ФАРМАКОНАДЗОРНЫЙ АССИСТЕНТ v4.0")
     print("=" * 70)
     
     # Создаем проверяльщики
     seriousness_checker = SeriousnessChecker()
     ime_checker = IMEChecker()
     expectedness_checker = ExpectednessChecker()
+    causality_checker = CausalityChecker()
     
     # Показываем доступные препараты
     available_drugs = expectedness_checker.get_available_drugs()
@@ -51,16 +50,17 @@ def main():
             adverse_events = extract_adverse_events(case_text)
             
             # Выводим результат
-            print(f"\n📋 КЕЙС {i}:")
+            print(f"\n{'='*70}")
+            print(f"📋 КЕЙС {i}:")
             print(f"📄 Текст: {case_text}")
             print(f"🔍 Выявленные события: {', '.join(adverse_events)}")
             
             # Анализируем каждое событие
             for event in adverse_events:
-                print(f"\n   📍 Анализ события: '{event}'")
+                print(f"\n   📍 Анализ события: '{event.upper()}'")
                 
                 # Серьезность
-                seriousness_result = seriousness_checker.check_seriousness(event)
+                seriousness_result = seriousness_checker.check_seriousness(case_text)
                 seriousness_status = "🔴 СЕРЬЕЗНЫЙ" if seriousness_result['is_serious'] else "🟢 НЕ серьезный"
                 print(f"   ⚠️  Серьезность: {seriousness_status}")
                 if seriousness_result['flags']:
@@ -82,11 +82,16 @@ def main():
                 print(f"      Причина: {expectedness_result['reason']}")
                 if 'frequency' in expectedness_result:
                     print(f"      Частота: {expectedness_result['frequency']}")
+                
+                # Причинно-следственная связь
+                causality_result = causality_checker.analyze_causality(case_text, event)
+                print(f"   🔗 Причинность: {causality_result['level']}")
+                print(f"      Обоснование: {causality_result['reasoning']}")
                     
         else:
             print(f"\n❌ Файл {filename} не найден!")
     
-    print("\n" + "=" * 70)
+    print(f"\n{'='*70}")
     print("📊 АНАЛИЗ ЗАВЕРШЕН!")
 
 if __name__ == "__main__":
