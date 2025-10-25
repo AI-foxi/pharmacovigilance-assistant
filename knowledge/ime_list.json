@@ -1,0 +1,22 @@
+{
+  "important_medical_events": [
+    "Acute hepatic failure",
+    "Acute kidney injury", 
+    "Anaphylactic shock",
+    "Anaphylactic reaction",
+    "Cardiac arrest",
+    "Stevens-Johnson syndrome",
+    "Toxic epidermal necrolysis",
+    "Sepsis",
+    "Septic shock",
+    "Myocardial infarction",
+    "Cerebrovascular accident",
+    "Pulmonary embolism",
+    "Acute respiratory distress syndrome",
+    "Rhabdomyolysis",
+    "Pancreatitis acute",
+    "Gastrointestinal haemorrhage",
+    "Suicidal ideation",
+    "Completed suicide"
+  ]
+}
