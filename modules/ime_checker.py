@@ -20,7 +20,7 @@ class IMEChecker:
                 "Acute hepatic failure", "Cardiac arrest"
             ]
     
-        def _create_russian_mappings(self):
+    def _create_russian_mappings(self):  # ← ЭТА СТРОКА ДОЛЖНА БЫТЬ ВЫРОВНЕНА С ДРУГИМИ МЕТОДАМИ
         """Создает словарь для перевода русских терминов в английские"""
         mappings = {
             # Кардиологические
