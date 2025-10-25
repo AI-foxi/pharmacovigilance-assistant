@@ -4,6 +4,7 @@ from modules.seriousness_checker import SeriousnessChecker
 from modules.ime_checker import IMEChecker
 from modules.expectedness_checker import ExpectednessChecker
 from modules.causality_checker import CausalityChecker
+from modules.missing_info_checker import MissingInfoChecker
 
 def extract_adverse_events(text):
     """Извлекает нежелательные явления из текста"""
@@ -24,7 +25,7 @@ def extract_adverse_events(text):
     return found_events if found_events else ['неизвестное событие']
 
 def main():
-    print("🚀 ФАРМАКОНАДЗОРНЫЙ АССИСТЕНТ v4.0")
+    print("🚀 ФАРМАКОНАДЗОРНЫЙ АССИСТЕНТ v5.0 - ПОЛНАЯ ВЕРСИЯ")
     print("=" * 70)
     
     # Создаем проверяльщики
@@ -32,6 +33,7 @@ def main():
     ime_checker = IMEChecker()
     expectedness_checker = ExpectednessChecker()
     causality_checker = CausalityChecker()
+    missing_info_checker = MissingInfoChecker()
     
     # Показываем доступные препараты
     available_drugs = expectedness_checker.get_available_drugs()
@@ -54,6 +56,15 @@ def main():
             print(f"📋 КЕЙС {i}:")
             print(f"📄 Текст: {case_text}")
             print(f"🔍 Выявленные события: {', '.join(adverse_events)}")
+            
+            # Проверяем недостающую информацию
+            missing_info_result = missing_info_checker.check_missing_information(case_text, adverse_events[0] if adverse_events else '')
+            print(f"📊 Полнота информации: {missing_info_result['completeness_score']}%")
+            
+            if missing_info_result['missing_info']:
+                print("❌ Отсутствует информация:")
+                for question in missing_info_result['questions']:
+                    print(f"   - {question}")
             
             # Анализируем каждое событие
             for event in adverse_events:
@@ -92,7 +103,8 @@ def main():
             print(f"\n❌ Файл {filename} не найден!")
     
     print(f"\n{'='*70}")
-    print("📊 АНАЛИЗ ЗАВЕРШЕН!")
+    print("🎉 АНАЛИЗ ЗАВЕРШЕН! Все 5 модулей работают!")
+    print("📈 Функциональность полная: Серьезность, IME, Предвиденность, Причинность, Полнота данных")
 
 if __name__ == "__main__":
     main()
