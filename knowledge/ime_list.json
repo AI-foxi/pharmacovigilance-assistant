@@ -1,7 +1,7 @@
 {
   "important_medical_events": [
     "Acute hepatic failure",
-    "Acute kidney injury", 
+    "Acute kidney injury",
     "Anaphylactic shock",
     "Anaphylactic reaction",
     "Cardiac arrest",
@@ -20,19 +20,16 @@
     "Completed suicide",
     "Torsade de pointes",
     "Heart rupture",
-    
-    // Новые термины из твоей базы препаратов
     "Myocardial ischemia",
     "Pericardial effusion",
     "Coronary artery thrombosis",
-    "Coronary artery occlusion", 
+    "Coronary artery occlusion",
     "Thrombosis",
     "Renal impairment",
     "Renal failure",
     "Arterial thrombosis",
     "Disseminated intravascular coagulation",
     "Coagulopathy",
-    "Anaphylactic shock",
     "Thrombophlebitis",
     "Psychotic disorder",
     "Hallucinations",
@@ -111,7 +108,6 @@
     "Cough",
     "Proteinuria",
     "Arthralgia",
-    "Exfoliative dermatitis",
     "Dry skin",
     "Skin discolouration",
     "Mucosal inflammation",
