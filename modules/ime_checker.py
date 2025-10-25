@@ -19,6 +19,18 @@ class IMEChecker:
                 "Anaphylactic shock", "Stevens-Johnson syndrome", 
                 "Acute hepatic failure", "Cardiac arrest"
             ]
+        except json.JSONDecodeError as e:
+            print(f"⚠️ Ошибка в JSON файле: {e}. Используем базовый список.")
+            return [
+                "Anaphylactic shock", "Stevens-Johnson syndrome", 
+                "Acute hepatic failure", "Cardiac arrest"
+            ]
+        except UnicodeDecodeError as e:
+            print(f"⚠️ Ошибка кодировки файла: {e}. Используем базовый список.")
+            return [
+                "Anaphylactic shock", "Stevens-Johnson syndrome", 
+                "Acute hepatic failure", "Cardiac arrest"
+            ]
     
     def _create_russian_mappings(self):  # ← ЭТА СТРОКА ДОЛЖНА БЫТЬ ВЫРОВНЕНА С ДРУГИМИ МЕТОДАМИ
         """Создает словарь для перевода русских терминов в английские"""
