@@ -1,39 +1,53 @@
-# main.py - Основной файл проекта
+# main.py
 import os
 from modules.seriousness_checker import SeriousnessChecker
+from modules.ime_checker import IMEChecker
 
 def main():
-    print("🚀 Pharmacovigilance AI Assistant")
-    print("Repository: https://github.com/Al-foxi/pharmacovigilance-assistant")
+    print("🚀 ФАРМАКОНАДЗОРНЫЙ АССИСТЕНТ v2.0")
+    print("=" * 60)
     
-    # Проверяем структуру
-    if not os.path.exists('data/cases'):
-        os.makedirs('data/cases')
-        print("✅ Created data/cases folder")
-        print("💡 Please add your case files: case_1.txt ... case_6.txt")
-        return
+    # Создаем проверяльщики
+    seriousness_checker = SeriousnessChecker()
+    ime_checker = IMEChecker()
     
-    # Загружаем кейсы
-    cases = []
+    # Проверяем все 6 кейсов
     for i in range(1, 7):
-        filename = f'data/cases/case_{i}.txt'
+        filename = f"data/cases/case_{i}.txt"
+        
         if os.path.exists(filename):
+            # Читаем файл
             with open(filename, 'r', encoding='utf-8') as f:
-                cases.append(f.read())
-            print(f"✅ Loaded: {filename}")
+                case_text = f.read().strip()
+            
+            # Анализируем серьезность
+            seriousness_result = seriousness_checker.check_seriousness(case_text)
+            
+            # Анализируем IME значимость
+            ime_result = ime_checker.check_ime_significance(case_text)
+            
+            # Выводим результат
+            print(f"\n📋 КЕЙС {i}:")
+            print(f"📄 Текст: {case_text}")
+            
+            # Серьезность
+            seriousness_status = "🔴 СЕРЬЕЗНЫЙ" if seriousness_result['is_serious'] else "🟢 НЕ серьезный"
+            print(f"⚠️  Серьезность: {seriousness_status}")
+            if seriousness_result['flags']:
+                print(f"   Причины: {', '.join(seriousness_result['flags'])}")
+            
+            # IME значимость
+            ime_status = "🔴 ЗНАЧИМЫЙ" if ime_result['is_significant'] else "🟢 НЕ значимый"
+            print(f"🏥 IME значимость: {ime_status}")
+            if ime_result['found_terms']:
+                for term in ime_result['found_terms']:
+                    print(f"   Найден IME: '{term['russian']}' → {term['english']}")
+                    
         else:
-            print(f"❌ Missing: {filename}")
-            cases.append("")
+            print(f"\n❌ Файл {filename} не найден!")
     
-    # Анализируем
-    checker = SeriousnessChecker()
-    print("\n📊 Analysis Results:")
-    
-    for i, case_text in enumerate(cases, 1):
-        if case_text:
-            result = checker.check_seriousness(case_text)
-            status = "SERIOUS" if result['is_serious'] else "not serious"
-            print(f"Case {i}: {status} - Flags: {result['flags']}")
+    print("\n" + "=" * 60)
+    print("📊 АНАЛИЗ ЗАВЕРШЕН!")
 
 if __name__ == "__main__":
     main()
