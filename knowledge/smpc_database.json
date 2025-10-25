@@ -1,0 +1,33 @@
+{
+  "Препарат А": {
+    "expected_effects": {
+      "Головная боль": {"type": "single", "frequency": "очень часто"},
+      "Тошнота": {"type": "single", "frequency": "часто"},
+      "Аллергическая реакция": {
+        "type": "symptom_complex", 
+        "frequency": "редко",
+        "includes": ["крапивница", "зуд", "сыпь", "отек"]
+      }
+    }
+  },
+  "Препарат Б": {
+    "expected_effects": {
+      "Сыпь": {"type": "single", "frequency": "часто"},
+      "Диарея": {"type": "single", "frequency": "часто"},
+      "Головокружение": {"type": "single", "frequency": "нечасто"},
+      "Анафилактический шок": {
+        "type": "symptom_complex",
+        "frequency": "очень редко", 
+        "includes": ["анафилаксия", "анафилактическая реакция"]
+      }
+    }
+  },
+  "Препарат В": {
+    "expected_effects": {
+      "Сухость во рту": {"type": "single", "frequency": "часто"},
+      "Запор": {"type": "single", "frequency": "часто"},
+      "Сонливость": {"type": "single", "frequency": "очень часто"},
+      "Нарушение зрения": {"type": "single", "frequency": "редко"}
+    }
+  }
+}
